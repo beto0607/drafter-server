@@ -24,7 +24,7 @@ func InitSliceDB(handler *mongo.Database) {
 	coll = handler.Collection("projects")
 }
 
-func SaveProject(project ProjectModel) (*ProjectModel, error) {
+func SaveProjectEntry(project ProjectModel) (*ProjectModel, error) {
 	project.CreatedAt = utils.UTCTimestamp()
 	project.Id = primitive.NewObjectID()
 	result, err := coll.InsertOne(context.TODO(), project)
@@ -37,7 +37,7 @@ func SaveProject(project ProjectModel) (*ProjectModel, error) {
 	return nil, errors.New("Couldn't retrieve InsertedID")
 }
 
-func FindProject(projectId string) (*ProjectModel, error) {
+func FindProjectEntry(projectId string) (*ProjectModel, error) {
 	objectId, err := primitive.ObjectIDFromHex(projectId)
 	if err != nil {
 		return nil, err
@@ -51,4 +51,17 @@ func FindProject(projectId string) (*ProjectModel, error) {
 	var project ProjectModel
 	result.Decode(&project)
 	return &project, nil
+}
+
+func UpdateProjectEntry(projectId string, project *ProjectModel) error {
+	objectId, err := primitive.ObjectIDFromHex(projectId)
+	if err != nil {
+		return err
+	}
+
+	project.UpdatedAt = utils.UTCTimestamp()
+	update := bson.M{"$set": project}
+	_, err = coll.UpdateByID(context.TODO(), objectId, update)
+
+	return err
 }
