@@ -13,6 +13,7 @@ type ProjectModel struct {
 	Elements        []ElementModel     `json:"elements" bson:"elements"`
 	BackgroundColor string             `json:"backgroundColor" bson:"backgroundColor"`
 	Tags            []TagModel         `json:"tags" bson:"tags"`
+	Name            string             `json:"name" bson:"name"`
 	CreatedAt       string             `json:"createdAt,omitempty" bson:"createdAt"`
 	UpdatedAt       string             `json:"updatedAt,omitempty" bson:"updatedAt"`
 	DeletedAt       string             `json:"deletedAt,omitempty" bson:"deletedAt"`
@@ -20,6 +21,7 @@ type ProjectModel struct {
 
 type ElementModel struct {
 	Id       string        `json:"id" bson:"id"`
+	Name     string        `json:"name" bson:"name"`
 	Title    string        `json:"title" bson:"title"`
 	Locked   bool          `json:"locked" bson:"locked"`
 	Caption  string        `json:"caption" bson:"caption"`
